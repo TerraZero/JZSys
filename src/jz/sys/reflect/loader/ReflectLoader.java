@@ -11,6 +11,8 @@ import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
+import jz.sys.reflect.Reflects;
+
 /**
  * 
  * @author Terra
@@ -117,8 +119,7 @@ public class ReflectLoader {
 				}
 			}
 		} catch (Exception e) {
-//			Sys.error("Unexpected Exception in SysLoader");
-//			Sys.exception(e);
+			Reflects.error("Unexpected exception in SysLoader", e);
 		}
 	}
 	
@@ -141,7 +142,7 @@ public class ReflectLoader {
 				this.loadFile(boots, path + "/" + f.getName(), internpath + "/" + f.getName());
 			} else if (f.isFile() && f.getName().endsWith(".class")) {
 				ReflectFile file = new ReflectFile(f, (internpath.length() == 0 ? "" : internpath.substring(1)));
-				if (file.id().startsWith("tz")) {
+				if (file.id().startsWith("tz") || file.id().startsWith("jz")) {
 					boots.add(file);
 				}
 			}

@@ -1,5 +1,8 @@
 package jz.sys.api;
 
+import jz.sys.util.SysCallStack;
+import jz.sys.util.SysString;
+
 public interface SysAPI {
 	
 	public String name();
@@ -10,7 +13,7 @@ public interface SysAPI {
 	
 	public default void logI(String message, int level, Object... params) {
 		message = SysString.placeholder(message, params);
-		System.out.println("[" + this.name() + "]" + SysCallStack.getLog(level + 2) + ": " + message);
+		System.out.println(SysCallStack.getLog(level + 2) + ": " + message);
 	}
 	
 	public default void warn(String message, Object... params) {
@@ -19,7 +22,7 @@ public interface SysAPI {
 	
 	public default void warnI(String message, int level, Object... params) {
 		message = SysString.placeholder(message, params);
-		System.out.println("[WARNING][" + this.name() + "]" + SysCallStack.getLog(level + 2) + ": " + message);
+		System.out.println(SysCallStack.getLog(level + 2) + "[WARNING]: " + message);
 	}
 	
 	public default void error(String message, Exception e, Object... params) {
@@ -28,13 +31,13 @@ public interface SysAPI {
 	
 	public default void errorI(String message, int level, Exception e, Object... params) {
 		message = SysString.placeholder(message, params);
-		System.out.println("[ERROR][" + this.name() + "]" + SysCallStack.getLog(level + 2) + ": " + message);
+		System.out.println(SysCallStack.getLog(level + 2) + "[ERROR]: " + message);
 		
 		if (e != null) {
 			StackTraceElement[] stack = e.getStackTrace();
-			System.out.println(e);
+			System.err.println(e);
 			for (int i = 0; i < stack.length; i++) {
-				System.out.println(stack[i].toString());
+				System.err.println(stack[i].toString());
 			}
 		}
 	}

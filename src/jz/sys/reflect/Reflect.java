@@ -40,6 +40,11 @@ public class Reflect {
 		this.reflect = reflect;
 	}
 	
+	public Reflect(Reflect reflect) {
+		this.reflectClass = reflect.reflectClass;
+		this.reflect = reflect.reflect;
+	}
+	
 	public Class<?> reflect() {
 		return this.reflectClass;
 	}
