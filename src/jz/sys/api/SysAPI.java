@@ -5,22 +5,30 @@ public interface SysAPI {
 	public String name();
 
 	public default void log(String message, Object... params) {
+		this.logI(message, 0, params);
+	}
+	
+	public default void logI(String message, int level, Object... params) {
 		message = SysString.placeholder(message, params);
-		System.out.println(SysCallStack.getLog(1) + ": " + message);
+		System.out.println("[" + this.name() + "]" + SysCallStack.getLog(level + 2) + ": " + message);
 	}
 	
 	public default void warn(String message, Object... params) {
+		this.warnI(message, 0, params);
+	}
+	
+	public default void warnI(String message, int level, Object... params) {
 		message = SysString.placeholder(message, params);
-		System.out.println(SysCallStack.getLog(1) + "[WARNING]: " + message);
+		System.out.println("[WARNING][" + this.name() + "]" + SysCallStack.getLog(level + 2) + ": " + message);
 	}
 	
 	public default void error(String message, Exception e, Object... params) {
-		this.errorI(message, 2, e, params);
+		this.errorI(message, 0, e, params);
 	}
 	
 	public default void errorI(String message, int level, Exception e, Object... params) {
 		message = SysString.placeholder(message, params);
-		System.out.println(SysCallStack.getLog(level) + "[ERROR]: " + message);
+		System.out.println("[ERROR][" + this.name() + "]" + SysCallStack.getLog(level + 2) + ": " + message);
 		
 		if (e != null) {
 			StackTraceElement[] stack = e.getStackTrace();
@@ -32,7 +40,7 @@ public interface SysAPI {
 	}
 	
 	public default void exception(Exception e) {
-		this.errorI("Default error handling.", 2, e);
+		this.errorI("Default error handling.", 0, e);
 	}
 	
 }

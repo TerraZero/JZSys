@@ -59,11 +59,9 @@ public class Reflect {
 			this.reflectClass = ReflectLoader.loader().loadClass(load);
 			this.reflect = null;
 		} catch (ClassNotFoundException e) {
-			
+			Reflects.error("Class [0] can not found in file system.", e, load);
 		} catch (NoClassDefFoundError e) {
-			System.out.println("Class not in file system.");
-			System.out.println(e);
-			e.printStackTrace();
+			Reflects.error("Class [0] can not found in file system. " + e.toString(), null, load);
 		}
 		return this;
 	}
@@ -110,7 +108,7 @@ public class Reflect {
 					this.reflect = c.newInstance(Reflects.getParameter(args, c.getParameterTypes(), c.isVarArgs()));
 				}
 			} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-//				Sys.exception(e);
+				Reflects.exception(e);
 			}
 		}
 		return this;
@@ -138,8 +136,7 @@ public class Reflect {
 			if (parameters != null) {
 				length = parameters.length;
 			}
-//			Sys.error("Try to call function [0] with [1] parameters", function, length + "");
-//			Sys.exception(e);
+			Reflects.error("Try to call function [0] with [1] parameters", e, function, length);
 			return null;
 		}
 	}
@@ -161,7 +158,7 @@ public class Reflect {
 				try {
 					function.invoke(this.reflect, parameters);
 				} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-//					Sys.exception(e);
+					Reflects.exception(e);
 				}
 			}
 		}
@@ -180,7 +177,7 @@ public class Reflect {
 		try {
 			return (type)this.reflectClass.getField(field).get(this.reflect);
 		} catch (IllegalArgumentException | IllegalAccessException | NoSuchFieldException | SecurityException e) {
-//			Sys.exception(e);
+			Reflects.exception(e);
 			return null;
 		}
 	}
@@ -197,7 +194,7 @@ public class Reflect {
 		try {
 			this.reflectClass.getField(field).set(this.reflect, set);
 		} catch (IllegalArgumentException | IllegalAccessException | NoSuchFieldException | SecurityException e) {
-//			Sys.exception(e);
+			Reflects.exception(e);
 		}
 		return this;
 	}

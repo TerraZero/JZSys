@@ -18,8 +18,11 @@ public class SysCallStack {
 	public static StackTraceElement getStackElement(int level) {
 		level++;
 		StackTraceElement[] stack = Thread.currentThread().getStackTrace();
+		for (int i = 0; i < stack.length; i++) {
+			System.out.println(stack[i]);
+		}
 		
-		if (stack.length >= level) {
+		if (stack.length > level && level >= 0) {
 			return stack[level];
 		}
 		return null;

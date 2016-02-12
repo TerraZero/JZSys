@@ -41,6 +41,24 @@ public class Reflects {
 	}
 	
 	
+	
+	public static void log(String message, Object... params) {
+		Reflects.handling.log(message, params);
+	}
+	
+	public static void warn(String message, Object... params) {
+		Reflects.handling.warn(message, params);
+	}
+	
+	public static void error(String message, Exception e, Object... params) {
+		Reflects.handling.error(message, e, params);
+	}
+	
+	public static void exception(Exception e) {
+		Reflects.handling.exception(e);
+	}
+	
+	
 
 	public static Class<?>[] extractClasses(Object... objs) {
 		Class<?>[] types = new Class<?>[objs.length];
